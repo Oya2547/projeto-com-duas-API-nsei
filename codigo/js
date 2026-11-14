@@ -1,0 +1,42 @@
+const btnCombo = document.getElementById('btn-combo');
+const resCombo = document.getElementById('res-combo');
+
+const btnBoredRand = document.getElementById('btn-bored-rand');
+const resBored = document.getElementById('res-bored');
+
+const btnAdviceRand = document.getElementById('btn-advice-rand');
+const resAdvice = document.getElementById('res-advice');
+
+btnCombo.addEventListener('click', async () => {
+  resCombo.innerHTML = 'Carregando...';
+  
+  const resposta = await fetch('/api/combo');
+  const dados = await resposta.json();
+
+  resCombo.innerHTML = `
+    <p><b>Atividade:</b> ${dados.atividade.activity}</p>
+    <p><b>Conselho:</b> "${dados.conselho.advice}"</p>
+  `;
+});
+
+btnBoredRand.addEventListener('click', async () => {
+  resBored.innerHTML = 'Carregando...';
+
+  const resposta = await fetch('/api/bored/random');
+  const dados = await resposta.json();
+
+  resBored.innerHTML = `<p>${dados.activity} (Tipo: ${dados.type})</p>`;
+});
+
+btnAdviceRand.addEventListener('click', async () => {
+  resAdvice.innerHTML = 'Carregando...';
+
+  const resposta = await fetch('/api/advice/random');
+  const dados = await resposta.json();
+
+  resAdvice.innerHTML = `<p>"${dados.advice}"</p>`;
+});
+
+window.onload = () => {
+  btnCombo.click();
+};
